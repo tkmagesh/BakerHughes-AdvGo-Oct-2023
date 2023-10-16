@@ -29,11 +29,26 @@ func main(){
 	// fmt.Println((*empPtr).Id)
 	fmt.Println(empPtr.Id)
 
-	AwardBonus(/*  */)
-	
+	// As a function
+	// AwardBonus(&emp, 2000)
+
+	// As a method
+	// (&emp).AwardBonusAsMethod(2000)
+	// emp.AwardBonusAsMethod(2000)
+	empPtr.AwardBonusAsMethod(2000)
+	fmt.Println(emp.Salary)
+
 }
 
-func AwardBonus(emp, bonus){
+func AwardBonus(emp *Employee, bonus float32){
 	// update the emp salary with bonus
+	// (*emp).Salary += bonus
+	emp.Salary += bonus
+}
+
+func (emp *Employee) AwardBonusAsMethod( bonus float32){
+	// update the emp salary with bonus
+	// (*emp).Salary += bonus
+	emp.Salary += bonus
 }
 
