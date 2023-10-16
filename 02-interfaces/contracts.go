@@ -57,16 +57,90 @@ func PrintArea(x AreaFinder){
 	fmt.Println("Area :", x.Area())	
 }
 
+// implement the PrintPerimeter function which can be used to print the perimiter of circle & rectangle
+
+type PerimiterFinder interface {
+	Perimeter() float32
+}
+
+func PrintPerimeter(x PerimiterFinder){
+	fmt.Println("Perimiter :", x.Perimeter())
+}
+
+func (c Circle) Perimeter() float32 {
+	return 2 * math.Pi * c.Radius
+}
+
+func (r Rectangle) Perimeter() float32 {
+	return 2 * (r.Length + r.Breadth)
+}
+
+
+// 
+/* 
+func PrintShape(x interface {
+	interface {
+		Area() float32
+	}
+	interface {
+		Perimeter() float32
+	}
+}){
+	PrintArea(x)
+	PrintPerimeter(x)
+} 
+*/
+
+/* 
+func PrintShape(x interface {
+	AreaFinder
+	PerimiterFinder
+}){
+	PrintArea(x)
+	PrintPerimeter(x)
+}  
+*/
+
+type ShapeStatsFinder interface {
+	AreaFinder
+	PerimiterFinder
+}
+
+func PrintShape(x ShapeStatsFinder){
+	PrintArea(x)
+	PrintPerimeter(x)
+} 
+
+// 
+func (c Circle) String() string {
+	return fmt.Sprintf("Circle : Radius : %v, Area : %v, Perimiter : %v", c.Radius, c.Area(), c.Perimeter())
+}
+
+func (r Rectangle) String() string {
+	return fmt.Sprintf("Rectangle : Length : %v, Breadth : %v, Area : %v, Perimiter : %v", r.Length, r.Breadth, r.Area(), r.Perimeter())
+}
+
 
 func main(){
 	c := Circle{Radius : 12}
 	// fmt.Println("Area :", c.Area())
+	/* 
 	PrintArea(c)
+	PrintPerimeter(c) 
+	*/
+
+	// PrintShape(c)
+	fmt.Println(c)
 
 	r := Rectangle{Length: 10, Breadth:12}
 	// fmt.Println("Area :", r.Area())
+	/* 
 	PrintArea(r)
+	PrintPerimeter(r) 
+	*/
+	// PrintShape(r)
+	fmt.Println(r)
 
-	PrintArea(100)
+	// PrintArea(100)
 }
 
