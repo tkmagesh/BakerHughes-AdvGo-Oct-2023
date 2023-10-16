@@ -34,3 +34,23 @@
 ## Concurrency in Go
 ### Concurrency
 - The ability to have more than one execution path in the application
+### Race Detection
+    - go run --race <filename.go>
+    - go build --race <filename.go> 
+        - DO NOT use a build with race detector in production
+### Channel
+- data type to enable communication between goroutines
+- declare
+```
+var <var_name> chan <data_type>
+ex : var ch chan int
+```
+- initialize
+```
+<var_name> = make(chan <data_type>)
+ex: ch = make(chan int)
+```
+- declare & initalize
+```
+ch := make(chan int)
+```
