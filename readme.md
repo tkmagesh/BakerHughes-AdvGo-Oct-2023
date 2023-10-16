@@ -54,3 +54,19 @@ ex: ch = make(chan int)
 ```
 ch := make(chan int)
 ```
+- Channel Operation
+    - Using the channel operator ( <- )
+    - Send operation
+    ```
+        ch <- 100
+    ```
+    - Receive Operation
+    ```
+        data := <- ch
+    ```
+- Channel Behaviors
+    - Receive Operation
+        - A RECEIVE operation is ALWAYS a blocking operation
+    - Send Operation
+        - A SEND operation is blocked until a RECEIVE operation is initiated
+![image channel_behaviors](./images/channel_behaviors.png)

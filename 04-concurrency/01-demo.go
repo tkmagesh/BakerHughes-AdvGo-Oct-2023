@@ -2,17 +2,16 @@ package main
 
 import (
 	"fmt"
-	"time"
 	"sync"
+	"time"
 )
-
 
 var wg sync.WaitGroup
 
-func main(){
+func main() {
 	fmt.Println("main started")
-	for i := 0; i <50; i++ {
-		wg.Add(1) // increment the counter by 1
+	wg.Add(50)
+	for i := 0; i < 50; i++ {
 		go f1() // handover this function to the scheduler to be scheduled for execution IN FUTURE
 	}
 	f2()
@@ -25,13 +24,13 @@ func main(){
 	fmt.Println("main completed")
 }
 
-func f1(){
+func f1() {
 	fmt.Println("f1 started")
 	time.Sleep(5 * time.Second)
 	fmt.Println("f1 completed")
 	wg.Done() // decrement the counter by 1
 }
 
-func f2(){
+func f2() {
 	fmt.Println("f2 invoked")
 }
