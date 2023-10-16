@@ -11,8 +11,10 @@ var wg sync.WaitGroup
 
 func main(){
 	fmt.Println("main started")
-	wg.Add(1) // increment the counter by 1
-	go f1() // handover this function to the scheduler to be scheduled for execution IN FUTURE
+	for i := 0; i <50; i++ {
+		wg.Add(1) // increment the counter by 1
+		go f1() // handover this function to the scheduler to be scheduled for execution IN FUTURE
+	}
 	f2()
 	// DO NOT DO THIS IN PRODUCTION
 	// block the execution of the current function so that the scheduler can look for other goroutines scheduled and execute them
