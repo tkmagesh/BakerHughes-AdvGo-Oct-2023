@@ -19,6 +19,7 @@ func (p *Product) ApplyDiscount(discountPercentage float32) {
 // struct composition
 type PerishableProduct struct {
 	Product
+	Id int
 	Expiry string
 }
 
@@ -59,12 +60,12 @@ func main(){
 	}
 
 	fmt.Println(grapes)
-	/* fmt.Println(grapes.Product.Id)
-	fmt.Println(grapes.Id) */
+	fmt.Println(grapes.Product.Id)
+	fmt.Println(grapes.Id)
 
-	grapes.ApplyDiscount(10)
+	/* grapes.ApplyDiscount(10)
 	fmt.Println("After applying 10% discount")
-	fmt.Println(grapes)
+	fmt.Println(grapes) */
 
 	
 }
