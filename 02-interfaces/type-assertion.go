@@ -2,6 +2,12 @@ package main
 
 import "fmt"
 
+type Product struct {
+	Id int
+	Name string
+	Cost float32
+}
+
 func main(){
 	// var x interface{}
 	var x any
@@ -27,7 +33,9 @@ func main(){
 
 	// x = "Enim excepteur sit eu nulla culpa ullamco et nisi consectetur officia."
 	// x = 19+12i
-	x = true
+	// x = true
+	x = Product{100, "pen", 10}
+
 	switch val := x.(type) {
 	case int:
 		fmt.Println("x is an int, x * 2 = ", val * 2)
@@ -35,6 +43,8 @@ func main(){
 		fmt.Println("x is a string, len(x) =", len(val))
 	case complex128:
 		fmt.Printf("x is a a complex128, real = %v & imag = %v\n", real(val), imag(val))
+	case Product:
+		fmt.Println("x is a product, x =", x);
 	default :
 		fmt.Println("x is an unknown type")
 	}
