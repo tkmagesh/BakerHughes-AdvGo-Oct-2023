@@ -31,3 +31,6 @@
     - Pass functions as arguments to other functions
     - Return functions as return values
 
+## Concurrency in Go
+### Concurrency
+- The ability to have more than one execution path in the application
