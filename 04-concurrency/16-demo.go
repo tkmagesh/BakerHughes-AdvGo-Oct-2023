@@ -6,22 +6,25 @@ import (
 )
 
 func main() {
-	ch := genFib()
+	stopCh := make(chan struct{})
+	ch := genFib(stopCh)
+	fmt.Println("Hit ENTER to stop...")
+	go func() {
+		fmt.Scanln()
+		stopCh <- struct{}{}
+	}()
 	for no := range ch {
 		fmt.Println(no)
 	}
 }
 
-func genFib() <-chan int {
+func genFib(stopCh <-chan struct{}) <-chan int {
 	ch := make(chan int)
-	// timeOutCh := timeOut(7 * time.Second)
-	timeOutCh := time.After(7 * time.Second)
-
 	go func() {
 	LOOP:
 		for x, y := 0, 1; ; {
 			select {
-			case <-timeOutCh:
+			case <-stopCh:
 				break LOOP
 			case ch <- x:
 				time.Sleep(500 * time.Millisecond)
