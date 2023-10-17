@@ -11,7 +11,8 @@ func main() {
 	fmt.Println("Hit ENTER to stop...")
 	go func() {
 		fmt.Scanln()
-		stopCh <- struct{}{}
+		// stopCh <- struct{}{}
+		close(stopCh)
 	}()
 	for no := range ch {
 		fmt.Println(no)
