@@ -70,3 +70,6 @@ ch := make(chan int)
     - Send Operation
         - A SEND operation is blocked until a RECEIVE operation is initiated
 ![image channel_behaviors](./images/channel_behaviors.png)
+
+- Closed channel
+    - Attempt to perform a "receive" operation on a "closed" channel will return the default value of the channel data type
