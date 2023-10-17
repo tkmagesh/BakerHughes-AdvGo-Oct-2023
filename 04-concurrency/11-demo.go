@@ -10,13 +10,9 @@ import (
 func main() {
 
 	ch := generateNos()
-	for {
-		if data, isOpen := <-ch; isOpen {
-			time.Sleep(1 * time.Second)
-			fmt.Println(data)
-			continue
-		}
-		break
+	for data := range ch {
+		time.Sleep(500 * time.Millisecond)
+		fmt.Println(data)
 	}
 	fmt.Println("Done")
 }
