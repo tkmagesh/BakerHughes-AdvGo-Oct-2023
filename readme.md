@@ -111,3 +111,14 @@ ch := make(chan int)
     2. Go plugins (installed in the GOPATH/bin folder)
         go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
         go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+
+## App Setup
+/grpc-app
+    /client
+    /server
+    /proto
+
+## To generate the proxy & stub (run the following command from the grpc-app folder)
+```
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/service.proto
+```
