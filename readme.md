@@ -113,10 +113,12 @@ ch := make(chan int)
         go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
 
 ## App Setup
+```
 /grpc-app
     /client
     /server
     /proto
+```
 
 ## To generate the proxy & stub (run the following command from the grpc-app folder)
 ```
