@@ -4,11 +4,14 @@ import (
 	"context"
 	"fmt"
 	proto "grpc-app/proto"
+	"io"
 	"log"
 	"net"
 	"time"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type appServiceImpl struct {
@@ -54,6 +57,61 @@ func isPrime(no int32) bool {
 		}
 	}
 	return true
+}
+
+func (asi *appServiceImpl) CalculateAverage(serverStream proto.AppService_CalculateAverageServer) error {
+	var sum, count int32
+	for {
+		req, err := serverStream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalln(err)
+		}
+		no := req.GetNo()
+		fmt.Printf("Receive %d for average calculation\n", no)
+		sum += no
+		count++
+	}
+	avg := sum / count
+	res := &proto.AverageResponse{
+		AvgResult: avg,
+	}
+	if err := serverStream.SendAndClose(res); err != nil {
+		log.Fatalln(err)
+	}
+	return nil
+}
+
+func (asi *appServiceImpl) Greet(serverStream proto.AppService_GreetServer) error {
+	for {
+		greetReq, err := serverStream.Recv()
+		if code := status.Code(err); code == codes.Unavailable {
+			fmt.Println("Client connection closed")
+			break
+		}
+		if err != nil {
+			log.Fatalln(err)
+		}
+		person := greetReq.GetPerson()
+		firstName := person.GetFirstName()
+		lastName := person.GetLastName()
+		log.Printf("Received greet request for %q and %q\n", firstName, lastName)
+		message := fmt.Sprintf("Hi %s %s, Have a nice day!", firstName, lastName)
+		time.Sleep(2 * time.Second)
+		log.Printf("Sending response : %q\n", message)
+		greetResp := &proto.GreetResponse{
+			Message: message,
+		}
+		if err := serverStream.Send(greetResp); err != nil {
+			if code := status.Code(err); code == codes.Unavailable {
+				fmt.Println("Client connection closed")
+				break
+			}
+		}
+	}
+	return nil
 }
 
 func main() {
