@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	proto "grpc-app/proto"
+	"io"
 	"log"
 
 	"google.golang.org/grpc"
@@ -23,7 +24,8 @@ func main() {
 
 	ctx := context.Background()
 
-	doRequestResponse(ctx, appServiceClient)
+	// doRequestResponse(ctx, appServiceClient)
+	doServerStreaming(ctx, appServiceClient)
 
 }
 
@@ -39,4 +41,27 @@ func doRequestResponse(ctx context.Context, appServiceClient proto.AppServiceCli
 		log.Fatalln(err)
 	}
 	fmt.Println(addResponse.GetResult())
+}
+
+func doServerStreaming(ctx context.Context, appServiceClient proto.AppServiceClient) {
+	primeReq := &proto.PrimeRequest{
+		Start: 3,
+		End:   100,
+	}
+	clientStream, err := appServiceClient.FindPrimes(ctx, primeReq)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	for {
+		primeRes, err := clientStream.Recv()
+		if err == io.EOF {
+			fmt.Println("All the prime numbers are received")
+			break
+		}
+		if err != nil {
+			log.Fatalln(err)
+		}
+		primeNo := primeRes.GetPrimeNo()
+		fmt.Printf("prime no : %d\n", primeNo)
+	}
 }
